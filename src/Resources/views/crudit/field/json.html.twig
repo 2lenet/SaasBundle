@@ -1,0 +1,4 @@
+{# Journaled JSON (Stripe payload) in a Crudit show page: indented, escaped; the Crudit template only prints flat arrays #}
+{% if value is not null %}
+    <pre class="mb-0 small">{{ value|json_encode(constant('JSON_PRETTY_PRINT') b-or constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE')) }}</pre>
+{% endif %}

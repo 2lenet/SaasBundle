@@ -1,0 +1,4 @@
+{# Value of a PHP backed enum (status, interval...) in a Crudit list or show page, translated #}
+{% if value is not null %}
+    {{- ('enum.' ~ (value.value ?? value))|trans(domain='LleSaasBundle') -}}
+{% endif %}

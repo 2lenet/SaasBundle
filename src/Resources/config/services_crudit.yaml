@@ -1,0 +1,12 @@
+# Admin screens: loaded by LleSaasExtension only when crudit-bundle is installed.
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Lle\SaasBundle\Crudit\:
+        resource: '../../Crudit/'
+
+    Lle\SaasBundle\Controller\Crudit\:
+        resource: '../../Controller/Crudit/'
+        tags: ['controller.service_arguments']
