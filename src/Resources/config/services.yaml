@@ -1,0 +1,63 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Lle\SaasBundle\:
+        resource: '../../'
+        exclude:
+            - '../../Contracts/'
+            - '../../Dto/'
+            - '../../Exception/'
+            - '../../DependencyInjection/'
+            - '../../Entity/'
+            - '../../Enum/'
+            - '../../Resources/'
+            - '../../Event/'
+            - '../../LleSaasBundle.php'
+            # constants and static helpers
+            - '../../Monitoring/'
+            - '../../Security/SaasRole.php'
+            - '../../Stripe/StripeObjects.php'
+            - '../../Stripe/StripeTime.php'
+            - '../../Webhook/StripeEventType.php'
+            # optional integrations, registered by LleSaasExtension when their bundle is enabled
+            - '../../Crudit/'
+            - '../../Controller/Crudit/'
+            - '../../Twig/'
+            - '../../Security/SaasCredentialWarmup.php'
+
+    Lle\SaasBundle\Controller\BillingController:
+        arguments:
+            $redirectRoutes: '%lle_saas.routes%'
+
+    Lle\SaasBundle\Routing\CruditRouteLoader:
+        tags: ['routing.loader']
+
+    Lle\SaasBundle\Repository\CustomerRepository:
+        arguments:
+            $customerClass: '%lle_saas.customer_class%'
+
+    Lle\SaasBundle\Stripe\StripeClientFactory:
+        arguments:
+            $secretKey: '%lle_saas.stripe.secret_key%'
+            $apiVersion: '%lle_saas.stripe.api_version%'
+
+    lle_saas.stripe_client:
+        class: Stripe\StripeClient
+        factory: ['@Lle\SaasBundle\Stripe\StripeClientFactory', 'create']
+
+    Lle\SaasBundle\Stripe\StripeGateway:
+        arguments:
+            $client: '@lle_saas.stripe_client'
+
+    Lle\SaasBundle\Stripe\StripeAppScope:
+        arguments:
+            $appId: '%lle_saas.stripe.app_id%'
+
+    Lle\SaasBundle\Stripe\WebhookEventFactory:
+        arguments:
+            $webhookSecret: '%lle_saas.stripe.webhook_secret%'
+
+    Lle\SaasBundle\Stripe\StripeGatewayInterface: '@Lle\SaasBundle\Stripe\StripeGateway'
+    Lle\SaasBundle\Stripe\StripeApiCallJournalInterface: '@Lle\SaasBundle\Stripe\DoctrineStripeApiCallJournal'
