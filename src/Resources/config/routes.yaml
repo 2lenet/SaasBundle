@@ -1,0 +1,12 @@
+lle_saas_billing:
+    resource: '../../Controller/BillingController.php'
+    type: attribute
+
+lle_saas_webhook:
+    resource: '../../Controller/WebhookController.php'
+    type: attribute
+
+# admin screens, only when crudit-bundle is installed
+lle_saas_crudit:
+    resource: .
+    type: lle_saas_crudit

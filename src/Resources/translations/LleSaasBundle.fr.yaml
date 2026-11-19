@@ -1,0 +1,104 @@
+# Écrans d'administration Crudit et menu du bundle (domaine LleSaasBundle)
+action:
+    list: Retour
+    show: Voir
+    export: Exporter
+
+crud:
+    title:
+        list:
+            saas_subscription: Abonnements
+            saas_plan: Offres
+            saas_stripeevent: Webhooks Stripe
+            saas_stripeapicall: Appels à l'API Stripe
+        show:
+            saas_subscription: Abonnement
+            saas_plan: Offre
+            saas_stripeevent: Webhook Stripe
+            saas_stripeapicall: Appel à l'API Stripe
+
+menu:
+    lle_saas: SaaS
+    lle_saas_subscription: Abonnements
+    lle_saas_plan: Offres
+    lle_saas_stripeevent: Webhooks Stripe
+    lle_saas_stripeapicall: Appels API Stripe
+
+field:
+    # communs
+    createdat: Créé le
+    updatedat: Modifié le
+    status: Statut
+    stripecustomerid: Client Stripe
+    durationms: Durée (ms)
+    # offre
+    code: Code
+    label: Libellé
+    description: Description
+    amount: Montant (centimes)
+    currency: Devise
+    interval: Périodicité
+    intervalcount: Nombre de périodes
+    active: En vente
+    position: Ordre
+    stripeproductid: Produit Stripe
+    stripepriceid: Prix Stripe
+    syncedat: Synchronisée le
+    # abonnement
+    customer: Client
+    plan: Offre
+    quantity: Quantité
+    currentperiodstart: Début de période
+    currentperiodend: Fin de période
+    cancelatperiodend: Résilié en fin de période
+    cancelat: Résiliation programmée le
+    canceledat: Résilié le
+    endedat: Terminé le
+    stripesubscriptionid: Abonnement Stripe
+    # webhook
+    stripeeventid: Événement Stripe
+    type: Type
+    error: Erreur
+    attempts: Tentatives
+    receivedat: Reçu le
+    stripecreatedat: Émis par Stripe le
+    claimedat: Pris en charge le
+    processedat: Traité le
+    objecttype: Type d'objet
+    objectid: Objet
+    livemode: Production
+    apiversion: Version de l'API
+    payload: Contenu
+    # appel API
+    operation: Opération
+    success: Succès
+    httpstatus: Statut HTTP
+    resourceid: Ressource
+    striperequestid: Requête Stripe
+    idempotencykey: Clé d'idempotence
+    errortype: Type d'erreur
+    errorcode: Code d'erreur
+    errormessage: Message d'erreur
+    requestpayload: Paramètres
+
+enum:
+    # statut d'abonnement
+    incomplete: Incomplet
+    incomplete_expired: Incomplet expiré
+    trialing: En essai
+    active: Actif
+    past_due: Impayé (relances en cours)
+    canceled: Résilié
+    unpaid: Impayé
+    paused: En pause
+    # statut de webhook
+    received: Reçu
+    processing: En cours de traitement
+    processed: Traité
+    ignored: Ignoré
+    failed: En échec
+    # périodicité
+    day: Jour
+    week: Semaine
+    month: Mois
+    year: Année

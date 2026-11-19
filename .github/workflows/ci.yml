@@ -1,0 +1,84 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    quality:
+        name: "${{ matrix.task.name }} (PHP ${{ matrix.php_version }})"
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php_version: ['8.4']
+                task:
+                    - { name: 'PHP CodeSniffer', run: 'vendor/bin/phpcs' }
+                    - { name: 'PHPStan', run: 'vendor/bin/phpstan analyse -c tests/phpstan.neon --memory-limit=512M' }
+                    - { name: 'PHPUnit', run: 'vendor/bin/phpunit -c tests/phpunit/phpunit.xml' }
+
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: 'Setup PHP'
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php_version }}
+                    extensions: intl, zip
+                    coverage: none
+
+            -   name: 'Validate composer.json'
+                run: composer validate --strict
+
+            -   name: 'Install dependencies with Composer'
+                run: composer update --no-interaction --no-progress --prefer-dist
+
+            -   name: ${{ matrix.task.name }}
+                run: ${{ matrix.task.run }}
+
+    # the suite runs on in-memory SQLite above; locks, DBAL updates and the version column also checked on real servers
+    database:
+        name: "PHPUnit on ${{ matrix.database.name }}"
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                database:
+                    - { name: 'MySQL 8.4', url: 'mysql://root:test@127.0.0.1:3306/lle_saas?serverVersion=8.4.0&charset=utf8mb4' }
+                    - { name: 'PostgreSQL 17', url: 'postgresql://postgres:test@127.0.0.1:5432/lle_saas?serverVersion=17&charset=utf8' }
+
+        services:
+            mysql:
+                image: mysql:8.4
+                env:
+                    MYSQL_ROOT_PASSWORD: test
+                    MYSQL_DATABASE: lle_saas
+                ports: ['3306:3306']
+                options: --health-cmd="mysqladmin ping -ptest" --health-interval=5s --health-timeout=5s --health-retries=20
+            postgres:
+                image: postgres:17
+                env:
+                    POSTGRES_PASSWORD: test
+                    POSTGRES_DB: lle_saas
+                ports: ['5432:5432']
+                options: --health-cmd="pg_isready -U postgres" --health-interval=5s --health-timeout=5s --health-retries=20
+
+        steps:
+            -   uses: actions/checkout@v4
+
+            -   name: 'Setup PHP'
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.4'
+                    extensions: intl, zip, pdo_mysql, pdo_pgsql
+                    coverage: none
+
+            -   name: 'Install dependencies with Composer'
+                run: composer update --no-interaction --no-progress --prefer-dist
+
+            -   name: 'PHPUnit'
+                run: vendor/bin/phpunit -c tests/phpunit/phpunit.xml
+                env:
+                    LLE_SAAS_TEST_DATABASE_URL: ${{ matrix.database.url }}

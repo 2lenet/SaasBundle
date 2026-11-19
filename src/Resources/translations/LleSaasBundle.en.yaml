@@ -1,0 +1,104 @@
+# Crudit admin screens and menu of the bundle (LleSaasBundle domain)
+action:
+    list: Back
+    show: Show
+    export: Export
+
+crud:
+    title:
+        list:
+            saas_subscription: Subscriptions
+            saas_plan: Plans
+            saas_stripeevent: Stripe webhooks
+            saas_stripeapicall: Stripe API calls
+        show:
+            saas_subscription: Subscription
+            saas_plan: Plan
+            saas_stripeevent: Stripe webhook
+            saas_stripeapicall: Stripe API call
+
+menu:
+    lle_saas: SaaS
+    lle_saas_subscription: Subscriptions
+    lle_saas_plan: Plans
+    lle_saas_stripeevent: Stripe webhooks
+    lle_saas_stripeapicall: Stripe API calls
+
+field:
+    # common
+    createdat: Created at
+    updatedat: Updated at
+    status: Status
+    stripecustomerid: Stripe customer
+    durationms: Duration (ms)
+    # plan
+    code: Code
+    label: Label
+    description: Description
+    amount: Amount (cents)
+    currency: Currency
+    interval: Interval
+    intervalcount: Interval count
+    active: On sale
+    position: Order
+    stripeproductid: Stripe product
+    stripepriceid: Stripe price
+    syncedat: Synchronized at
+    # subscription
+    customer: Customer
+    plan: Plan
+    quantity: Quantity
+    currentperiodstart: Period start
+    currentperiodend: Period end
+    cancelatperiodend: Cancels at period end
+    cancelat: Cancels at
+    canceledat: Canceled at
+    endedat: Ended at
+    stripesubscriptionid: Stripe subscription
+    # webhook
+    stripeeventid: Stripe event
+    type: Type
+    error: Error
+    attempts: Attempts
+    receivedat: Received at
+    stripecreatedat: Sent by Stripe at
+    claimedat: Claimed at
+    processedat: Processed at
+    objecttype: Object type
+    objectid: Object
+    livemode: Live mode
+    apiversion: API version
+    payload: Payload
+    # API call
+    operation: Operation
+    success: Success
+    httpstatus: HTTP status
+    resourceid: Resource
+    striperequestid: Stripe request
+    idempotencykey: Idempotency key
+    errortype: Error type
+    errorcode: Error code
+    errormessage: Error message
+    requestpayload: Parameters
+
+enum:
+    # subscription status
+    incomplete: Incomplete
+    incomplete_expired: Incomplete, expired
+    trialing: Trialing
+    active: Active
+    past_due: Past due (retrying)
+    canceled: Canceled
+    unpaid: Unpaid
+    paused: Paused
+    # webhook status
+    received: Received
+    processing: Processing
+    processed: Processed
+    ignored: Ignored
+    failed: Failed
+    # interval
+    day: Day
+    week: Week
+    month: Month
+    year: Year
